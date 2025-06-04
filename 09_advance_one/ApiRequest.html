@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Learning 1</title>
+</head>
+<body style="background-color: #212121; color: #fff;">
+
+0	UNSENT	Client has been created. open() not called yet.
+1	OPENED	open() has been called.
+2	HEADERS_RECEIVED	send() has been called, and headers and status are available.
+3	LOADING	Downloading; responseText holds partial data.
+4	DONE	The operation is complete.
+
+<button id="showUser">Show</button>
+<button id="hideUser">Hide</button>
+<div class="userImg" id="userImg">
+
+</div>
+
+
+    
+</body>
+
+<script>
+
+    const xhr = new XMLHttpRequest();
+    // const requestURL = "https://api.github.com/users/thapasujan";
+    const requestURL = "https://api.github.com/users/hiteshchoudhary";
+
+    xhr.open('GET', requestURL);
+    let userImg;
+    let userImgDiv;
+    xhr.onreadystatechange = function(){
+        console.log(xhr.readyState);
+        if(xhr.readyState === 4){
+            console.log(this.responseText);
+            const data = JSON.parse(this.responseText);
+            console.log(typeof data);
+            console.log(data.followers);
+
+            userImg = data.avatar_url;
+            console.log(userImg);
+
+            const userShow = document.getElementById("showUser").addEventListener('click', function(){
+                console.log("clicked");
+                userImgDiv = document.getElementById('userImg');
+                userImgDiv.innerHTML = `<img src="${userImg}">`;
+            })
+
+            const userHide = document.getElementById('hideUser').addEventListener('click', function(){
+                console.log("hide clicked");
+                userImgDiv.innerHTML = "";
+            })
+            
+        }
+    }
+    console.log("here");
+    console.log(xhr.readyState);
+    xhr.send();
+
+</script>
+
+</html>
